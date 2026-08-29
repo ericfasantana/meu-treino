@@ -528,6 +528,52 @@ function stopTimer(){
 }
 document.getElementById('skip-btn').addEventListener('click',stopTimer);
 
+// ── CARDIO TIMER ──
+let cardioIv=null, cardioLeft=25*60, cardioRunning=false, cardioDone=false;
+
+function buildCardioCard(){
+  const m=Math.floor(cardioLeft/60), s=cardioLeft%60;
+  const timeStr=`${m}:${String(s).padStart(2,'0')}`;
+  let btnText='Iniciar cardio', btnStyle='background:var(--ac);color:#fff';
+  if(cardioDone){ btnText='Concluído ✓'; btnStyle='background:var(--acd);color:var(--ac)'; }
+  else if(cardioRunning){ btnText='Pausar'; btnStyle='background:var(--s3);color:var(--t1)'; }
+  else if(cardioLeft<25*60){ btnText='Continuar'; btnStyle='background:var(--ac);color:#fff'; }
+  return `<div style="margin:0 14px 10px;background:var(--s1);border:1px solid var(--bd);border-radius:18px;padding:15px 16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <span style="font-size:15.5px;font-weight:700">Bike ou Elíptico</span>
+      <span id="cardio-disp" style="font-size:22px;font-weight:800;color:${cardioDone?'var(--acd)':'var(--ac)'};font-variant-numeric:tabular-nums">${cardioDone?'✓':timeStr}</span>
+    </div>
+    <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Ritmo moderado — consegue falar frases curtas, mas não cantar</div>
+    <button id="cardio-btn" style="width:100%;padding:13px;${btnStyle};border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent">${btnText}</button>
+  </div>`;
+}
+
+function tickCardio(){
+  cardioLeft--;
+  const disp=document.getElementById('cardio-disp');
+  if(disp){ const m=Math.floor(cardioLeft/60),s=cardioLeft%60; disp.textContent=`${m}:${String(s).padStart(2,'0')}`; }
+  if(cardioLeft<=0){
+    clearInterval(cardioIv); cardioIv=null; cardioRunning=false; cardioDone=true;
+    if(navigator.vibrate) navigator.vibrate([400,200,400,200,600]);
+    const btn=document.getElementById('cardio-btn');
+    const disp2=document.getElementById('cardio-disp');
+    if(btn){btn.textContent='Concluído ✓';btn.style.background='var(--acd)';btn.style.color='var(--ac)';}
+    if(disp2){disp2.textContent='✓';disp2.style.color='var(--acd)';}
+  }
+}
+
+function toggleCardio(){
+  if(cardioDone){ cardioLeft=25*60; cardioDone=false; cardioRunning=false; clearInterval(cardioIv); cardioIv=null; renderHoje(); return; }
+  if(!cardioRunning){
+    cardioRunning=true;
+    cardioIv=setInterval(tickCardio,1000);
+    const btn=document.getElementById('cardio-btn'); if(btn) btn.textContent='Pausar';
+  } else {
+    cardioRunning=false; clearInterval(cardioIv); cardioIv=null;
+    const btn=document.getElementById('cardio-btn'); if(btn) btn.textContent='Continuar';
+  }
+}
+
 // ── HOJE ──
 function renderHoje(){
   const exs = data.workout.exercises;
@@ -575,13 +621,9 @@ function renderHoje(){
     <div class="sec-label">Fase 1 — Força</div>${forca.join('')}
     <div class="sec-label">Fase 2 — Abdômen</div>${core.join('')}
     <div class="sec-label">Fase 3 — Cardio</div>
-    <div style="margin:0 14px 10px;background:var(--acb);border:1px solid var(--acd);border-radius:18px;padding:15px 16px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
-        <span style="font-size:15.5px;font-weight:700">Bike ou Elíptico</span>
-        <span style="font-size:17px;font-weight:800;color:var(--ac)">20–25 min</span>
-      </div>
-      <div style="font-size:12px;color:var(--t2)">Ritmo moderado — consegue falar frases curtas, mas não cantar</div>
-    </div>`;
+    ${buildCardioCard()}`;
+
+  document.getElementById('cardio-btn')?.addEventListener('click', toggleCardio);
 
   document.querySelectorAll('.set-btn').forEach(btn=>{
     btn.addEventListener('click',()=>{
@@ -590,9 +632,14 @@ function renderHoje(){
       if(s<sess2.completedSets[i]) sess2.completedSets[i]=s;
       else if(s===sess2.completedSets[i]){
         sess2.completedSets[i]=s+1;
-        const next=exs.find((_,j)=>j>i&&sess2.completedSets[j]<exs[j].sets);
         const allDone2=exs.every((_,j)=>sess2.completedSets[j]>=exs[j].sets);
-        if(!allDone2) startTimer(next?.name||null);
+        if(!allDone2){
+          const currentExDone = sess2.completedSets[i]>=exs[i].sets;
+          let nextName;
+          if(!currentExDone){ nextName=exs[i].name; }
+          else { const nx=exs.find((_,j)=>j>i&&sess2.completedSets[j]<exs[j].sets); nextName=nx?.name||null; }
+          startTimer(nextName);
+        }
       }
       save(); renderHoje();
       const allDone=exs.every((_,j)=>getTodaySession().completedSets[j]>=exs[j].sets);
