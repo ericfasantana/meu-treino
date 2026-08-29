@@ -1,0 +1,8 @@
+[{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+                  "namespace": "android_app",
+                  "package_name": "io.github.ericfasantana.twa",
+                  "sha256_cert_fingerprints": ["1F:C8:0A:B2:7B:8A:CC:6C:70:6C:E2:DF:43:25:42:2F:79:A9:A6:D2:20:FA:BF:76:57:CB:AE:B0:36:3B:F9:75"]
+        }
+}]
