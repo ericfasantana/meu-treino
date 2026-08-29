@@ -10,6 +10,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Treino">
+<link rel="manifest" href="/meu-treino/manifest.json">
+<link rel="apple-touch-icon" href="/meu-treino/icons/icon-192.png">
 </head>
 <body>
 <style>
@@ -445,19 +447,7 @@ input[type=range] {
 <script>
 // ── SERVICE WORKER ──
 if('serviceWorker' in navigator){
-  const sw=`
-self.addEventListener('install',e=>{
-  e.waitUntil(caches.open('treino-v2').then(c=>c.addAll([location.href])));
-  self.skipWaiting();
-});
-self.addEventListener('activate',e=>{ e.waitUntil(clients.claim()); });
-self.addEventListener('fetch',e=>{
-  if(e.request.mode==='navigate'){
-    e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)));
-  }
-});`;
-  const blob=new Blob([sw],{type:'application/javascript'});
-  navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+  navigator.serviceWorker.register('/meu-treino/sw.js').catch(()=>{});
 }
 
 // ── DEFAULT DATA ──
