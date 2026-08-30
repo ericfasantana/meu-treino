@@ -98,7 +98,7 @@ body {
 /* DAY TABS */
 .day-tabs {
   display: flex; gap: 6px; padding: 10px 14px 12px;
-  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  overflox-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
 }
 .day-tabs::-webkit-scrollbar { display: none; }
 .day-tab {
@@ -467,8 +467,8 @@ function mkExercises(){
       {id:2,name:"Remada no Cabo (TriÃ¢ngulo)",note:"Puxa para o umbigo, cotovelos para trÃ¡s",sets:4,reps:"12",weight:"25 kg",phase:1},
       {id:3,name:"ElevaÃ§Ã£o Lateral no Cabo",note:"Cotovelo levemente dobrado, nÃ£o sobe acima do ombro",sets:3,reps:"15",weight:"5 kg",phase:1},
       {id:4,name:"Pullover na MÃ¡quina",note:"Sente o alongamento do dorsal no inÃ­cio",sets:3,reps:"12",weight:"20 kg",phase:1},
-      {id:5,name:"TrÃ­ceps na MÃ¡quina",note:"Cotovelos apontados para frente, extensÃ£o completa",sets:3,reps:"15",weight:"15 kg",phase:1},
-      {id:6,name:"Rosca Concentrada com Haltere",note:"Sentado, cotovelo apoiado na coxa interna",sets:3,reps:"12",weight:"10 kg",phase:1},
+      {id:5,name:"TrÃ­ceps no Cabo (Corda)",note:"Cotovelos fixos ao corpo, abre a corda na extensÃ£o completa",sets:3,reps:"15",weight:"12 kg",phase:1},
+      {id:6,name:"Rosca Concentrada Sentado",note:"Cotovelo apoiado na coxa interna, sem balanÃ§ar o tronco",sets:3,reps:"12",weight:"10 kg",phase:1},
       {id:7,name:"Face Pull no Cabo",note:"Cotovelos Ã  altura dos ombros, puxa para a testa",sets:3,reps:"15",weight:"12 kg",phase:1},
     ],
   };
@@ -490,7 +490,7 @@ let data = {
 
 function load(){
   try{
-    const r=JSON.parse(localStorage.getItem('treino-v3')||'{}');
+    const r=JSON.parse(localStorage.getItem('treino-v4')||'{}');
     if(r.workouts) data=r;
   }catch(e){}
   const def=mkExercises();
@@ -501,7 +501,7 @@ function load(){
   });
 }
 function save(){
-  try{localStorage.setItem('treino-v3',JSON.stringify(data));}catch(e){}
+  try{localStorage.setItem('treino-v4',JSON.stringify(data));}catch(e){}
 }
 load();
 
