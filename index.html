@@ -98,7 +98,7 @@ body {
 /* DAY TABS */
 .day-tabs {
   display: flex; gap: 6px; padding: 10px 14px 12px;
-  overflox-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
 }
 .day-tabs::-webkit-scrollbar { display: none; }
 .day-tab {
@@ -145,7 +145,7 @@ body {
 .set-btn:active { transform: scale(0.91); }
 .set-btn.s-next { border-color: var(--ac); color: var(--ac); background: var(--acb); }
 .set-btn.s-done { background: var(--ac); border-color: var(--ac); color: #fff; }
-.set-btn.s-done::after { content: 'â'; position: absolute; font-size: 15px; }
+.set-btn.s-done::after { content: '✓'; position: absolute; font-size: 15px; }
 .set-btn.s-done > * { display: none; }
 .reps-sub { font-size: 11.5px; color: var(--t2); text-align: center; margin-top: 8px; font-weight: 500; }
 
@@ -370,7 +370,7 @@ input[type=range] { width: 100%; accent-color: var(--ac); cursor: pointer; heigh
   </button>
   <button class="nav-tab" data-tab="semana">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-    CalendÃ¡rio
+    Calendário
   </button>
   <button class="nav-tab" data-tab="editar">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
@@ -378,7 +378,7 @@ input[type=range] { width: 100%; accent-color: var(--ac); cursor: pointer; heigh
   </button>
   <button class="nav-tab" data-tab="historico">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-    HistÃ³rico
+    Histórico
   </button>
 </nav>
 
@@ -396,7 +396,7 @@ input[type=range] { width: 100%; accent-color: var(--ac); cursor: pointer; heigh
       <circle class="ring-fg" id="ring-fg" cx="35" cy="35" r="29" stroke-dasharray="182.2" stroke-dashoffset="0"/>
     </svg>
   </div>
-  <button class="skip-btn" id="skip-btn">PrÃ³xima sÃ©rie â</button>
+  <button class="skip-btn" id="skip-btn">Próxima série →</button>
 </div>
 
 <!-- Done overlay -->
@@ -406,75 +406,75 @@ input[type=range] { width: 100%; accent-color: var(--ac); cursor: pointer; heigh
       <path d="M8 20l8 8 16-16" stroke="#3CC870" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
-  <div class="done-title">Treino concluÃ­do!</div>
-  <div class="done-sub" id="done-sub">ForÃ§a feita. Como foi o treino?</div>
+  <div class="done-title">Treino concluído!</div>
+  <div class="done-sub" id="done-sub">Força feita. Como foi o treino?</div>
   <div class="done-stats-row">
-    <div class="d-stat"><div class="d-stat-val" id="d-sets">â</div><div class="d-stat-lbl">sÃ©ries</div></div>
-    <div class="d-stat"><div class="d-stat-val" id="d-time">â</div><div class="d-stat-lbl">minutos</div></div>
-    <div class="d-stat"><div class="d-stat-val" id="d-streak">â</div><div class="d-stat-lbl">semana</div></div>
+    <div class="d-stat"><div class="d-stat-val" id="d-sets">—</div><div class="d-stat-lbl">séries</div></div>
+    <div class="d-stat"><div class="d-stat-val" id="d-time">—</div><div class="d-stat-lbl">minutos</div></div>
+    <div class="d-stat"><div class="d-stat-val" id="d-streak">—</div><div class="d-stat-lbl">semana</div></div>
   </div>
-  <textarea class="done-note-area" id="done-note" placeholder="AnotaÃ§Ã£o do treino (opcional)â¦"></textarea>
+  <textarea class="done-note-area" id="done-note" placeholder="Anotação do treino (opcional)…"></textarea>
   <button class="done-finish-btn" id="done-finish-btn">Encerrar e salvar</button>
 </div>
 
 <script>
-// ââ SERVICE WORKER ââ
+// ── SERVICE WORKER ──
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('/meu-treino/sw.js').catch(()=>{});
 }
 
-// ââ CONSTANTS ââ
+// ── CONSTANTS ──
 const DAY_KEYS = ['seg','ter','qua','qui','sex','sab','dom'];
-const DAY_LABELS = {seg:'Seg',ter:'Ter',qua:'Qua',qui:'Qui',sex:'Sex',sab:'SÃ¡b',dom:'Dom'};
-const DAY_FULL   = {seg:'Segunda',ter:'TerÃ§a',qua:'Quarta',qui:'Quinta',sex:'Sexta',sab:'SÃ¡bado',dom:'Domingo'};
+const DAY_LABELS = {seg:'Seg',ter:'Ter',qua:'Qua',qui:'Qui',sex:'Sex',sab:'Sáb',dom:'Dom'};
+const DAY_FULL   = {seg:'Segunda',ter:'Terça',qua:'Quarta',qui:'Quinta',sex:'Sexta',sab:'Sábado',dom:'Domingo'};
 const DOW_TO_KEY = {0:'dom',1:'seg',2:'ter',3:'qua',4:'qui',5:'sex',6:'sab'};
-const DOW_PT  = ['Dom','Seg','Ter','Qua','Qui','Sex','SÃ¡b'];
-const MO_PT   = ['Janeiro','Fevereiro','MarÃ§o','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DOW_PT  = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const MO_PT   = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const CIRC = 182.2;
 // Cardio duration in seconds per day (0 = rest day)
 const CARDIO_DUR = {seg:15*60, ter:15*60, qua:45*60, qui:15*60, sex:15*60, sab:0, dom:0};
 const REST_DAYS  = new Set(['sab','dom']);
 
-// ââ DEFAULT EXERCISES ââ
+// ── DEFAULT EXERCISES ──
 function mkExercises(){
   return {
     seg:[
-      {id:1,name:"Prensa de Perna",note:"Joelhos alinhados, amplitude atÃ© 90Â°",sets:4,reps:"10â12",weight:"60 kg",phase:1},
-      {id:2,name:"Cadeira Extensora",note:"Contrair no topo por 1 seg, descer controlado",sets:3,reps:"12â15",weight:"25 kg",phase:1},
-      {id:3,name:"Cadeira Flexora",note:"Descida controlada em 3 seg",sets:3,reps:"12â15",weight:"20 kg",phase:1},
+      {id:1,name:"Prensa de Perna",note:"Joelhos alinhados, amplitude até 90°",sets:4,reps:"10–12",weight:"60 kg",phase:1},
+      {id:2,name:"Cadeira Extensora",note:"Contrair no topo por 1 seg, descer controlado",sets:3,reps:"12–15",weight:"25 kg",phase:1},
+      {id:3,name:"Cadeira Flexora",note:"Descida controlada em 3 seg",sets:3,reps:"12–15",weight:"20 kg",phase:1},
       {id:4,name:"Abdutor de Quadril",note:"Abre e fecha devagar, sem usar impulso",sets:3,reps:"15",weight:"25 kg",phase:1},
-      {id:5,name:"Panturrilha na MÃ¡quina",note:"Amplitude completa, sobe na ponta do pÃ©",sets:3,reps:"20",weight:"30 kg",phase:1},
+      {id:5,name:"Panturrilha na Máquina",note:"Amplitude completa, sobe na ponta do pé",sets:3,reps:"20",weight:"30 kg",phase:1},
     ],
     ter:[
-      {id:1,name:"Supino na MÃ¡quina",note:"Empurrada horizontal â nÃ£o trave o cotovelo",sets:4,reps:"10â12",weight:"20 kg",phase:1},
-      {id:2,name:"Puxada Alta",note:"Barra larga, puxar atÃ© a altura do peito",sets:4,reps:"10â12",weight:"30 kg",phase:1},
-      {id:3,name:"Desenvolvimento na MÃ¡quina",note:"Ombros alinhados, nÃ£o sobe alÃ©m do nÃ­vel do ombro",sets:3,reps:"12",weight:"15 kg",phase:1},
-      {id:4,name:"Remada Sentada na MÃ¡quina",note:"Cotovelos colados, pausa de 1 seg no final",sets:3,reps:"12",weight:"25 kg",phase:1},
-      {id:5,name:"TrÃ­ceps no Cabo (Corda)",note:"Cotovelos fixos ao corpo, extensÃ£o completa",sets:3,reps:"15",weight:"15 kg",phase:1},
-      {id:6,name:"Rosca Direta na Polia",note:"Sem balanÃ§o, bÃ­ceps contraÃ­do no topo",sets:3,reps:"15",weight:"10 kg",phase:1},
+      {id:1,name:"Supino na Máquina",note:"Empurrada horizontal — não trave o cotovelo",sets:4,reps:"10–12",weight:"20 kg",phase:1},
+      {id:2,name:"Puxada Alta",note:"Barra larga, puxar até a altura do peito",sets:4,reps:"10–12",weight:"30 kg",phase:1},
+      {id:3,name:"Desenvolvimento na Máquina",note:"Ombros alinhados, não sobe além do nível do ombro",sets:3,reps:"12",weight:"15 kg",phase:1},
+      {id:4,name:"Remada Sentada na Máquina",note:"Cotovelos colados, pausa de 1 seg no final",sets:3,reps:"12",weight:"25 kg",phase:1},
+      {id:5,name:"Tríceps no Cabo (Corda)",note:"Cotovelos fixos ao corpo, extensão completa",sets:3,reps:"15",weight:"15 kg",phase:1},
+      {id:6,name:"Rosca Direta na Polia",note:"Sem balanço, bíceps contraído no topo",sets:3,reps:"15",weight:"10 kg",phase:1},
     ],
     qua:[],
     qui:[
-      {id:1,name:"Prensa de Perna",note:"PÃ©s mais altos e afastados â Ãªnfase no glÃºteo",sets:4,reps:"10â12",weight:"60 kg",phase:1},
-      {id:2,name:"Cadeira Extensora",note:"IsomÃ©trico no topo por 2 seg",sets:3,reps:"15",weight:"25 kg",phase:1},
+      {id:1,name:"Prensa de Perna",note:"Pés mais altos e afastados — ênfase no glúteo",sets:4,reps:"10–12",weight:"60 kg",phase:1},
+      {id:2,name:"Cadeira Extensora",note:"Isométrico no topo por 2 seg",sets:3,reps:"15",weight:"25 kg",phase:1},
       {id:3,name:"Mesa Flexora",note:"Amplitude total, descida controlada em 3 seg",sets:3,reps:"12",weight:"20 kg",phase:1},
-      {id:4,name:"GlÃºteo na MÃ¡quina",note:"ContraÃ§Ã£o mÃ¡xima no topo por 1 seg",sets:3,reps:"15",weight:"25 kg",phase:1},
+      {id:4,name:"Glúteo na Máquina",note:"Contração máxima no topo por 1 seg",sets:3,reps:"15",weight:"25 kg",phase:1},
       {id:5,name:"Adutor de Quadril",note:"Fechamento controlado, sem usar impulso",sets:3,reps:"15",weight:"20 kg",phase:1},
-      {id:6,name:"Crunch na MÃ¡quina",note:"Expirar na contraÃ§Ã£o, controlar o retorno",sets:3,reps:"20",weight:"10 kg",phase:2},
+      {id:6,name:"Crunch na Máquina",note:"Expirar na contração, controlar o retorno",sets:3,reps:"20",weight:"10 kg",phase:2},
     ],
     sex:[
-      {id:1,name:"Pec Deck (Voador)",note:"Arco suave dos cotovelos, contraÃ§Ã£o no centro",sets:4,reps:"12â15",weight:"20 kg",phase:1},
-      {id:2,name:"Remada no Cabo (TriÃ¢ngulo)",note:"Puxa para o umbigo, cotovelos para trÃ¡s",sets:4,reps:"12",weight:"25 kg",phase:1},
-      {id:3,name:"ElevaÃ§Ã£o Lateral no Cabo",note:"Cotovelo levemente dobrado, nÃ£o sobe acima do ombro",sets:3,reps:"15",weight:"5 kg",phase:1},
-      {id:4,name:"Pullover na MÃ¡quina",note:"Sente o alongamento do dorsal no inÃ­cio",sets:3,reps:"12",weight:"20 kg",phase:1},
-      {id:5,name:"TrÃ­ceps no Cabo (Corda)",note:"Cotovelos fixos ao corpo, abre a corda na extensÃ£o completa",sets:3,reps:"15",weight:"12 kg",phase:1},
-      {id:6,name:"Rosca Concentrada Sentado",note:"Cotovelo apoiado na coxa interna, sem balanÃ§ar o tronco",sets:3,reps:"12",weight:"10 kg",phase:1},
-      {id:7,name:"Face Pull no Cabo",note:"Cotovelos Ã  altura dos ombros, puxa para a testa",sets:3,reps:"15",weight:"12 kg",phase:1},
+      {id:1,name:"Pec Deck (Voador)",note:"Arco suave dos cotovelos, contração no centro",sets:4,reps:"12–15",weight:"20 kg",phase:1},
+      {id:2,name:"Remada no Cabo (Triângulo)",note:"Puxa para o umbigo, cotovelos para trás",sets:4,reps:"12",weight:"25 kg",phase:1},
+      {id:3,name:"Elevação Lateral no Cabo",note:"Cotovelo levemente dobrado, não sobe acima do ombro",sets:3,reps:"15",weight:"5 kg",phase:1},
+      {id:4,name:"Pullover na Máquina",note:"Sente o alongamento do dorsal no início",sets:3,reps:"12",weight:"20 kg",phase:1},
+      {id:5,name:"Tríceps no Cabo (Corda)",note:"Cotovelos fixos ao corpo, abre a corda na extensão completa",sets:3,reps:"15",weight:"12 kg",phase:1},
+      {id:6,name:"Rosca Concentrada Sentado",note:"Cotovelo apoiado na coxa interna, sem balançar o tronco",sets:3,reps:"12",weight:"10 kg",phase:1},
+      {id:7,name:"Face Pull no Cabo",note:"Cotovelos à altura dos ombros, puxa para a testa",sets:3,reps:"15",weight:"12 kg",phase:1},
     ],
   };
 }
 
-// ââ STATE ââ
+// ── STATE ──
 let data = {
   workouts:{
     seg:{name:"Inferior A",restSeconds:90,exercises:[]},
@@ -505,7 +505,7 @@ function save(){
 }
 load();
 
-// ââ DATE ââ
+// ── DATE ──
 const TODAY = new Date().toISOString().slice(0,10);
 const TODAY_DOW = new Date().getDay(); // 0=Sun
 const TODAY_KEY = DOW_TO_KEY[TODAY_DOW] || null;
@@ -524,11 +524,11 @@ function getSession(dateStr,dk){
   return s;
 }
 
-// ââ ACTIVE DAY ââ
+// ── ACTIVE DAY ──
 let activeDay = TODAY_KEY || 'seg';
 let editDay   = 'seg'; // edit only covers weekdays
 
-// ââ BOTTOM NAV ââ
+// ── BOTTOM NAV ──
 let currentTab='hoje';
 const tabFns={hoje:()=>renderHoje(),semana:renderSemana,editar:renderEditar,historico:renderHistorico};
 document.querySelectorAll('.nav-tab').forEach(btn=>{
@@ -542,7 +542,7 @@ document.querySelectorAll('.nav-tab').forEach(btn=>{
   });
 });
 
-// ââ REST TIMER ââ
+// ── REST TIMER ──
 let timerIv=null,timerLeft=90,timerTotal=90;
 function startTimer(nextName){
   stopTimer();
@@ -550,7 +550,7 @@ function startTimer(nextName){
   const sheet=document.getElementById('timer-sheet');
   const numEl=document.getElementById('timer-num');
   const ringEl=document.getElementById('ring-fg');
-  document.getElementById('timer-sub').textContent=nextName?'A seguir: '+nextName:'Ãltimo exercÃ­cio!';
+  document.getElementById('timer-sub').textContent=nextName?'A seguir: '+nextName:'Último exercício!';
   sheet.classList.add('show');
   function tick(){
     numEl.textContent=timerLeft;
@@ -566,7 +566,7 @@ function stopTimer(){
 }
 document.getElementById('skip-btn').addEventListener('click',stopTimer);
 
-// ââ CARDIO TIMER (per day) ââ
+// ── CARDIO TIMER (per day) ──
 const CS={};
 DAY_KEYS.forEach(k=>CS[k]={left:CARDIO_DUR[k],running:false,done:false});
 let cardioIv=null,cardioDK=null;
@@ -582,16 +582,16 @@ function buildCardioCard(dk){
   const m=Math.floor(cs.left/60),s=cs.left%60;
   const timeStr=`${m}:${String(s).padStart(2,'0')}`;
   let btnText='Iniciar',btnStyle='background:var(--ac);color:#fff';
-  if(cs.done){btnText='ConcluÃ­do â';btnStyle='background:var(--acd);color:var(--ac)';}
+  if(cs.done){btnText='Concluído ✓';btnStyle='background:var(--acd);color:var(--ac)';}
   else if(cs.running){btnText='Pausar';btnStyle='background:var(--s3);color:var(--t1)';}
   else if(cs.left<CARDIO_DUR[dk]){btnText='Continuar';btnStyle='background:var(--ac);color:#fff';}
   const isQua=dk==='qua';
-  const title=isQua?'Remo Indoor ou Caminhada':'Bike ou ElÃ­ptico';
-  const hint=isQua?'Ritmo moderado â 40 a 50 min de atividade leve':'Ritmo moderado â consegue falar frases curtas, mas nÃ£o cantar';
+  const title=isQua?'Remo Indoor ou Caminhada':'Bike ou Elíptico';
+  const hint=isQua?'Ritmo moderado — 40 a 50 min de atividade leve':'Ritmo moderado — consegue falar frases curtas, mas não cantar';
   return `<div style="margin:0 14px 10px;background:var(--s1);border:1px solid var(--bd);border-radius:18px;padding:15px 16px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
       <span style="font-size:15.5px;font-weight:700">${title}</span>
-      <span id="cardio-disp" style="font-size:22px;font-weight:800;color:${cs.done?'var(--acd)':'var(--ac)'};font-variant-numeric:tabular-nums">${cs.done?'â':timeStr}</span>
+      <span id="cardio-disp" style="font-size:22px;font-weight:800;color:${cs.done?'var(--acd)':'var(--ac)'};font-variant-numeric:tabular-nums">${cs.done?'✓':timeStr}</span>
     </div>
     <div style="font-size:12px;color:var(--t2);margin-bottom:12px">${hint}</div>
     <button id="cardio-btn" style="width:100%;padding:13px;${btnStyle};border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent">${btnText}</button>
@@ -606,8 +606,8 @@ function tickCardio(dk){
     clearInterval(cardioIv);cardioIv=null;cs.running=false;cs.done=true;cardioDK=null;
     if(navigator.vibrate)navigator.vibrate([400,200,400,200,600]);
     const btn=document.getElementById('cardio-btn'),disp2=document.getElementById('cardio-disp');
-    if(btn){btn.textContent='ConcluÃ­do â';btn.style.background='var(--acd)';btn.style.color='var(--ac)';}
-    if(disp2){disp2.textContent='â';disp2.style.color='var(--acd)';}
+    if(btn){btn.textContent='Concluído ✓';btn.style.background='var(--acd)';btn.style.color='var(--ac)';}
+    if(disp2){disp2.textContent='✓';disp2.style.color='var(--acd)';}
   }
 }
 
@@ -625,7 +625,7 @@ function toggleCardio(dk){
   }
 }
 
-// ââ DAY TABS HTML ââ
+// ── DAY TABS HTML ──
 function buildDayTabs(activeDk,forEdit){
   // edit only covers the 5 training days (not rest days or cardio-only)
   const keys=forEdit?DAY_KEYS.filter(k=>!REST_DAYS.has(k)&&k!=='qua'):DAY_KEYS;
@@ -636,7 +636,7 @@ function buildDayTabs(activeDk,forEdit){
   </div>`;
 }
 
-// ââ HOJE ââ
+// ── HOJE ──
 function renderHoje(){
   const dk=activeDay;
   const wk=data.workouts[dk];
@@ -645,17 +645,17 @@ function renderHoje(){
   const isRest=REST_DAYS.has(dk);
   const hasExs=exs.length>0;
 
-  const eyebrow = dk===TODAY_KEY ? formatDate() : `${DAY_FULL[dk]} â prÃ©via`;
+  const eyebrow = dk===TODAY_KEY ? formatDate() : `${DAY_FULL[dk]} — prévia`;
 
-  // ââ REST DAY (SÃ¡b / Dom) ââ
+  // ── REST DAY (Sáb / Dom) ──
   if(isRest){
     setHeader(eyebrow,'Descanso','','');
     document.getElementById('hoje-content').innerHTML=
       buildDayTabs(dk,false)+
       `<div class="rest-card">
-        <div class="rest-card-icon">ð´</div>
+        <div class="rest-card-icon">😴</div>
         <div class="rest-card-title">Dia de descanso</div>
-        <div class="rest-card-sub">RecuperaÃ§Ã£o ativa: alongamento leve, caminhada tranquila ou simplesmente descanso total. O mÃºsculo cresce no repouso.</div>
+        <div class="rest-card-sub">Recuperação ativa: alongamento leve, caminhada tranquila ou simplesmente descanso total. O músculo cresce no repouso.</div>
       </div>`;
     bindDayTabs();
     return;
@@ -668,7 +668,7 @@ function renderHoje(){
       `<div class="sec-label">Atividade do dia</div>
        ${buildCardioCard(dk)}
        <div style="margin:0 14px 6px;font-size:12.5px;color:var(--t2);line-height:1.7;text-align:center;padding:0 6px">
-         Remo indoor ou caminhada a passo moderado.<br>DuraÃ§Ã£o: 40 a 50 minutos.
+         Remo indoor ou caminhada a passo moderado.<br>Duração: 40 a 50 minutos.
        </div>`;
     bindDayTabs();
     document.getElementById('cardio-btn')?.addEventListener('click',()=>toggleCardio(dk));
@@ -685,7 +685,7 @@ function renderHoje(){
     eyebrow,
     wk.name,
     isToday?`<button class="bar-btn" id="reset-btn">Reiniciar</button>`:'',
-    isToday?`<div class="prog-wrap"><div class="prog-track"><div class="prog-fill" style="width:${totalSets?(doneSets/totalSets*100).toFixed(1):0}%"></div></div><div class="prog-text">${doneExs} de ${exs.length} exercÃ­cios Â· ${doneSets}/${totalSets} sÃ©ries</div></div>`:''
+    isToday?`<div class="prog-wrap"><div class="prog-track"><div class="prog-fill" style="width:${totalSets?(doneSets/totalSets*100).toFixed(1):0}%"></div></div><div class="prog-text">${doneExs} de ${exs.length} exercícios · ${doneSets}/${totalSets} séries</div></div>`:''
   );
 
   document.getElementById('reset-btn')?.addEventListener('click',()=>{
@@ -709,7 +709,7 @@ function renderHoje(){
         </div>
         <div class="ex-note">${ex.note}</div>
         <div class="sets-row">${dots}</div>
-        <div class="reps-sub">${ex.reps} por sÃ©rie Â· ${ex.sets} sÃ©ries</div>
+        <div class="reps-sub">${ex.reps} por série · ${ex.sets} séries</div>
       </div></div>`;
     if(ex.phase===1) forca.push(card); else core.push(card);
   });
@@ -717,9 +717,9 @@ function renderHoje(){
   const hasCore=core.length>0;
   document.getElementById('hoje-content').innerHTML=
     buildDayTabs(dk,false)+
-    `<div class="sec-label">Fase 1 â ForÃ§a</div>${forca.join('')}
-    ${hasCore?`<div class="sec-label">Fase 2 â AbdÃ´men</div>${core.join('')}`:''}
-    <div class="sec-label">${hasCore?'Fase 3':'Fase 2'} â Cardio</div>
+    `<div class="sec-label">Fase 1 — Força</div>${forca.join('')}
+    ${hasCore?`<div class="sec-label">Fase 2 — Abdômen</div>${core.join('')}`:''}
+    <div class="sec-label">${hasCore?'Fase 3':'Fase 2'} — Cardio</div>
     ${buildCardioCard(dk)}`;
 
   bindDayTabs();
@@ -759,16 +759,16 @@ function bindDayTabs(){
   });
 }
 
-// ââ DONE ââ
+// ── DONE ──
 function showDone(dk){
   const sess=getSession(TODAY,dk);
   const exs=data.workouts[dk].exercises;
   const mins=Math.round((Date.now()-sess.startTime)/60000);
   const totalSets=exs.reduce((s,e)=>s+e.sets,0);
-  document.getElementById('done-sub').textContent=`${data.workouts[dk].name} concluÃ­do! Como foi?`;
+  document.getElementById('done-sub').textContent=`${data.workouts[dk].name} concluído! Como foi?`;
   document.getElementById('d-sets').textContent=totalSets;
   document.getElementById('d-time').textContent=mins;
-  document.getElementById('d-streak').textContent=weekStreak()+'Ã esta semana';
+  document.getElementById('d-streak').textContent=weekStreak()+'× esta semana';
   document.getElementById('done-note').value=sess.note||'';
   stopTimer();
   document.getElementById('done-overlay').classList.add('show');
@@ -782,7 +782,7 @@ document.getElementById('done-finish-btn').addEventListener('click',()=>{
   renderHoje();
 });
 
-// ââ CALENDAR ââ
+// ── CALENDAR ──
 let calYear=new Date().getFullYear(),calMonth=new Date().getMonth();
 
 function weekStreak(){
@@ -804,7 +804,7 @@ function trainedDates(){
 }
 
 function renderSemana(){
-  setHeader('Seu calendÃ¡rio','HistÃ³rico de treinos','','');
+  setHeader('Seu calendário','Histórico de treinos','','');
   const trained=trainedDates();
   const monthCount=[...trained].filter(d=>{const dt=new Date(d);return dt.getFullYear()===calYear&&dt.getMonth()===calMonth;}).length;
   const totalAll=trained.size;
@@ -821,14 +821,14 @@ function renderSemana(){
   document.getElementById('semana-content').innerHTML=`
     <div class="stats-row">
       <div class="stat-card"><div class="stat-val">${weekStreak()}</div><div class="stat-lbl">Esta semana</div></div>
-      <div class="stat-card"><div class="stat-val">${monthCount}</div><div class="stat-lbl">Este mÃªs</div></div>
+      <div class="stat-card"><div class="stat-val">${monthCount}</div><div class="stat-lbl">Este mês</div></div>
       <div class="stat-card"><div class="stat-val">${totalAll}</div><div class="stat-lbl">Total</div></div>
     </div>
     <div class="cal-header">
       <div class="cal-month">${MO_PT[calMonth]} ${calYear}</div>
       <div class="cal-nav">
-        <div class="cal-arrow" id="cal-prev">â¹</div>
-        <div class="cal-arrow" id="cal-next">âº</div>
+        <div class="cal-arrow" id="cal-prev">‹</div>
+        <div class="cal-arrow" id="cal-next">›</div>
       </div>
     </div>
     <div class="cal-grid">
@@ -849,30 +849,30 @@ function renderSemana(){
       const details=daySessions.map(([k,s])=>{
         const mins=Math.round((s.endTime-s.startTime)/60000);
         const wkName=s.workoutKey?data.workouts[s.workoutKey]?.name||s.workoutKey:'';
-        return `<div style="margin-bottom:8px"><strong>${wkName}</strong> Â· ${mins} min${s.note?`<br><span style="font-size:12.5px;color:var(--t2)">${s.note}</span>`:''}</div>`;
+        return `<div style="margin-bottom:8px"><strong>${wkName}</strong> · ${mins} min${s.note?`<br><span style="font-size:12.5px;color:var(--t2)">${s.note}</span>`:''}</div>`;
       }).join('');
       document.getElementById('cal-detail').innerHTML<`<div class="cal-day-detail">
-        <div class="cal-detail-date">ð ${dateStr}</div>
-        <div class="cal-detail-note">${details||'<em style="color:var(--t3)">Sem anotaÃ§Ã£o.</em>'}</div>
+        <div class="cal-detail-date">📅 ${dateStr}</div>
+        <div class="cal-detail-note">${details||'<em style="color:var(--t3)">Sem anotação.</em>'}</div>
       </div>`;
     });
   });
 }
 
-// ââ EDITAR ââ
+// ── EDITAR ──
 function renderEditar(){
   const wk=data.workouts[editDay];
-  setHeader('ConfiguraÃ§Ãµes','Personalizar treino','<button class="bar-btn primary" id="save-edit-btn">Salvar</button>','');
+  setHeader('Configurações','Personalizar treino','<button class="bar-btn primary" id="save-edit-btn">Salvar</button>','');
   const exForms=wk.exercises.map((ex,i)=>`
     <div class="ex-edit-card">
       <div class="ex-edit-head">
         <span class="ex-edit-num">${i+1}</span>
-        <input class="ex-edit-name-input" data-ei="${i}" data-f="name" value="${escHtml(ex.name)}" placeholder="Nome do exercÃ­cio">
-        <button class="del-btn" data-del="${i}">Ã</button>
+        <input class="ex-edit-name-input" data-ei="${i}" data-f="name" value="${escHtml(ex.name)}" placeholder="Nome do exercício">
+        <button class="del-btn" data-del="${i}">×</button>
       </div>
       <div class="ex-edit-fields">
         <div class="ex-edit-field">
-          <div class="ex-ef-label">SÃ©ries</div>
+          <div class="ex-ef-label">Séries</div>
           <input class="ex-ef-input" type="number" min="1" max="10" data-ei="${i}" data-f="sets" value="${ex.sets}">
         </div>
         <div class="ex-edit-field">
@@ -888,7 +888,7 @@ function renderEditar(){
 
   document.getElementById('editar-content').innerHTML=
     buildDayTabs(editDay,true)+
-    `<div class="sec-label">Descanso â ${wk.name}</div>
+    `<div class="sec-label">Descanso — ${wk.name}</div>
     <div class="edit-field">
       <div class="rest-row">
         <div class="rest-label-row">
@@ -899,9 +899,9 @@ function renderEditar(){
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:6px;font-weight:600"><span>30 seg</span><span>3 min</span></div>
       </div>
     </div>
-    <div class="sec-label">ExercÃ­cios â ${wk.name}</div>
+    <div class="sec-label">Exercícios — ${wk.name}</div>
     ${exForms}
-    <button class="add-ex-btn" id="add-ex-btn">+ Adicionar exercÃ­cio</button>`;
+    <button class="add-ex-btn" id="add-ex-btn">+ Adicionar exercício</button>`;
 
   document.getElementById('rest-slider').addEventListener('input',function(){
     document.getElementById('rest-val-label').textContent=this.value+'s';
@@ -912,13 +912,13 @@ function renderEditar(){
   document.querySelectorAll('[data-del]').forEach(btn=>{
     btn.addEventListener('click',()=>{
       const i=+btn.dataset.del;
-      if(wk.exercises.length<=1)return alert('MÃ­nimo de 1 exercÃ­cio.');
+      if(wk.exercises.length<=1)return alert('Mínimo de 1 exercício.');
       if(!confirm(`Remover "${wk.exercises[i].name}"?`))return;
       wk.exercises.splice(i,1);save();renderEditar();
     });
   });
   document.getElementById('add-ex-btn').addEventListener('click',()=>{
-    wk.exercises.push({id:Date.now(),name:"Novo exercÃ­cio",note:"ObservaÃ§Ã£o tÃ©cnica",sets:3,reps:"15",weight:"â kg",phase:1});
+    wk.exercises.push({id:Date.now(),name:"Novo exercício",note:"Observação técnica",sets:3,reps:"15",weight:"— kg",phase:1});
     save();renderEditar();
     setTimeout(()=>document.getElementById('editar-content').lastElementChild?.previousElementSibling?.scrollIntoView({behavior:'smooth'}),100);
   });
@@ -934,19 +934,19 @@ function renderEditar(){
     });
     save();
     const btn=document.getElementById('save-edit-btn');
-    btn.textContent='Salvo â';btn.style.background='var(--acd)';
+    btn.textContent='Salvo ✓';btn.style.background='var(--acd)';
     setTimeout(()=>{btn.textContent='Salvar';btn.style.background='';},1800);
   });
 }
 
-// ââ HISTÃRICO ââ
+// ── HISTÓRICO ──
 function renderHistorico(){
-  setHeader('HistÃ³rico','Treinos realizados','','');
+  setHeader('Histórico','Treinos realizados','','');
   const entries=Object.entries(data.sessions)
     .filter(([,s])=>s.endTime)
     .sort(([a],[b])=>b.localeCompare(a));
   if(!entries.length){
-    document.getElementById('historico-content').innerHTML=`<div class="empty"><div class="empty-icon">ð</div><div class="empty-text">Nenhum treino finalizado ainda.<br>Quando vocÃª encerrar o primeiro treino ele aparece aqui.</div></div>`;
+    document.getElementById('historico-content').innerHTML=`<div class="empty"><div class="empty-icon">📋</div><div class="empty-text">Nenhum treino finalizado ainda.<br>Quando você encerrar o primeiro treino ele aparece aqui.</div></div>`;
     return;
   }
   const items=entries.map(([k,s])=>{
@@ -959,18 +959,18 @@ function renderHistorico(){
     return `<div class="hist-item">
       <div class="hist-head" onclick="this.nextElementSibling.classList.toggle('open')">
         <div>
-          <div class="hist-date">${dateStr}${wkName?` Â· ${wkName}`:''}</div>
-          <div class="hist-meta">${mins} min Â· ${totalSets} sÃ©ries</div>
+          <div class="hist-date">${dateStr}${wkName?` · ${wkName}`:''}</div>
+          <div class="hist-meta">${mins} min · ${totalSets} séries</div>
         </div>
-        <div class="hist-badge">â</div>
+        <div class="hist-badge">✓</div>
       </div>
-      <div class="hist-note">${s.note||'<span style="color:var(--t3)">Sem anotaÃ§Ã£o.</span>'}</div>
+      <div class="hist-note">${s.note||'<span style="color:var(--t3)">Sem anotação.</span>'}</div>
     </div>`;
   }).join('');
   document.getElementById('historico-content').innerHTML=items;
 }
 
-// ââ HELPERS ââ
+// ── HELPERS ──
 function setHeader(ey,ti,rh,ex){
   document.getElementById('bar-eyebrow').textContent=ey;
   document.getElementById('bar-title').textContent=ti;
@@ -986,7 +986,7 @@ function escHtml(s){
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ââ INIT ââ
+// ── INIT ──
 renderHoje();
 </script>
 </body>
